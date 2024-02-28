@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import { useNavigate, Link } from "react-router-dom"; // 导入 Link 组件
+import axios from "axios";
 
 
 function Register(props){
@@ -21,7 +22,7 @@ function handleChange(event){
 
 }
 
-function handleRegister(event){
+async function handleRegister(event){
     event.preventDefault();
     console.log("Register button clicked");
     if (registerInfo.password.length < 6) {
@@ -43,15 +44,28 @@ function handleRegister(event){
         username: registerInfo.username,
         password: registerInfo.password
       };
-      console.log("created newUser")
-      props.onRegister(newUser);
-      console.log("created newUser", newUser);
-      navigate("/login");    
+      console.log("created newUser");
+
+      try {
+        const response = await axios.post("http://localhost:5000/api/register", newUser);
+        const data = response.data;
+        
+        if (data.success) {
+        
+          navigate("/login");
+        } else {
+          alert(data.message);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("An error occurred. Please try again.");
+      }
+         
 
 }
     return (
         <div>
-        <form >
+        <form onSubmit={handleRegister}>
         <h1>Register Page</h1>
         <label for="username">Username</label>
         <input type="text" onChange={handleChange} name="username" id="username" placeholder="username" value={registerInfo.username} required/>
@@ -59,7 +73,7 @@ function handleRegister(event){
         <input type="password" onChange={handleChange} name="password" id="password" placeholder="password" value={registerInfo.password} required/>
         <label for="confirmPassword">Confirm Password</label>
         <input type="password" onChange={handleChange} name="confirmPassword" id="confirmPassword" value={registerInfo.confirmPassword} placeholder="password" required/>
-        <button onClick={handleRegister}>Register</button>
+        <button type="submit">Register</button>
 
         </form>
     
