@@ -43,36 +43,43 @@ function Login(props) {
   }
 
   return (
-    <div>
+    <div className="form-container">
       <form onSubmit={handleSumbit}>
         <h1>Login Page</h1>
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          onChange={handleChange}
-          name="username"
-          id="username"
-          placeholder="admin"
-          value={loginInfo.username}
-          required
-        />
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          onChange={handleChange}
-          name="password"
-          id="password"
-          placeholder="123456"
-          value={loginInfo.password}
-          required
-        />
-        <button type="submit">Login</button>
+        <div className="form-group">
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            onChange={handleChange}
+            name="username"
+            id="username"
+            placeholder="admin"
+            value={loginInfo.username}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            onChange={handleChange}
+            name="password"
+            id="password"
+            placeholder="123456"
+            value={loginInfo.password}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <button type="submit">Login</button>
+        </div>
       </form>
-      <p>
-        If you don't have an account, you can <Link to="/register">create a new account</Link>.
-      </p>
+      <div className="link-container">
+        <p>
+          If you don't have an account, you can <Link to="/register">create a new account</Link>.
+        </p>
+      </div>
     </div>
   );
 }
-
 export default Login;

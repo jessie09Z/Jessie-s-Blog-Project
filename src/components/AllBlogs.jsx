@@ -12,12 +12,12 @@ import axios from "axios";
 
 function AllBlogs(props) {
   const [userBlogs, setUserBlogs] = useState([]);
+  const [blogsChanged, setBlogsChanged] = useState(0); 
   let { username } = useParams();
 
   useEffect(() => {
     async function fetchUserBlogs() {
       try {
-       
         const response = await axios.get(`http://localhost:5000/api/user/${username}/blogs`);
         const blogs = response.data;
         setUserBlogs(blogs);
@@ -25,20 +25,19 @@ function AllBlogs(props) {
         console.error("Error fetching user blogs:", error);
       }
     }
-if(username){ fetchUserBlogs();}
-   
-  }, [username, userBlogs]); 
+    if (username) {
+      fetchUserBlogs();
+    }
+  }, [username, blogsChanged]); 
 
-  function handleDeleteClick(id) {
-    props.onDelete(id);
-  }
   async function handleDelete(id) {
     try {
       const response = await axios.delete(`http://localhost:5000/api/user/${username}/blogs/${id}`);
       if (response.status === 200) {
         const updatedBlogs = userBlogs.filter((blog) => blog.id !== id);
-        console.log("delete correctly");
         setUserBlogs(updatedBlogs);
+        setBlogsChanged((prev) => prev + 1); 
+        console.log("Blog deleted correctly");
       } else {
         console.error("Failed to delete blog");
       }
@@ -47,23 +46,20 @@ if(username){ fetchUserBlogs();}
     }
   }
 
-
   return (
     <div>
-
-{userBlogs.map((BlogItem) => {
+      {userBlogs.map((BlogItem) => {
         return (
           <Blog
             key={BlogItem.blogid}
-            id={BlogItem.blogid} // 使用实际的id值
+            id={BlogItem.blogid}
             title={BlogItem.title}
             content={BlogItem.content}
             username={username}
-            onDelete={handleDelete} // 将删除函数传递给子组件
+            onDelete={() => handleDelete(BlogItem.blogid)}
           />
         );
       })}
-
     </div>
   );
 }
