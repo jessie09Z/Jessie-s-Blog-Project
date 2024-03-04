@@ -29,7 +29,10 @@ function AllBlogs(props) {
       fetchUserBlogs();
     }
   }, [username, blogsChanged]); 
+  useEffect(() => {
 
+    localStorage.setItem("currentPath", `/users/${username}/allblogs`);
+  }, [username]);
   async function handleDelete(id) {
     try {
       const response = await axios.delete(`http://localhost:5000/api/user/${username}/blogs/${id}`);
@@ -38,6 +41,7 @@ function AllBlogs(props) {
         setUserBlogs(updatedBlogs);
         setBlogsChanged((prev) => prev + 1); 
         console.log("Blog deleted correctly");
+        
       } else {
         console.error("Failed to delete blog");
       }

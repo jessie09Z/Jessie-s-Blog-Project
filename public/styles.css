@@ -137,8 +137,8 @@
   
   .form-container {
     position: relative;
-    max-width: 450px; /* 设置最大宽度 */
-    width: 90%; /* 相对于父元素宽度的90% */
+    max-width: 450px; 
+    width: 90%; 
     margin: 100px auto;
     background: #fff;
     padding: 20px;
@@ -211,17 +211,17 @@
     text-decoration: underline;
   }
   
-  /* 响应式设计 */
+  
   @media screen and (max-width: 768px) {
     .form-container {
-      width: 100%; /* 在较小的屏幕上占据100%宽度 */
+      width: 100%; 
       margin: 20px auto;
       padding: 15px;
     }
   
     .form-group input,
     .form-group button {
-      font-size: 0.9rem; /* 在较小的屏幕上缩小字体大小 */
+      font-size: 0.9rem; 
     }
   }
   .create-blog {
@@ -238,8 +238,8 @@
     border-radius: 7px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
-    max-width: 800px; /* 设置最大宽度，根据需要调整 */
-    margin: 10px auto; /* 水平居中 */
+    max-width: 800px; 
+    margin: 10px auto; 
   }
   
   .blog h1 {
@@ -251,7 +251,7 @@
   .blog p {
     text-align: center;
     margin-bottom: 20px;
-    word-wrap: break-word; /* 自动换行 */
+    word-wrap: break-word; 
   }
   
   .blog .button-container {
@@ -275,7 +275,7 @@
   .blog button:hover {
     background-color: #eca509;
   }
-  /* 响应式设计 */
+  
   @media screen and (max-width: 768px) {
     .blog {
       padding: 15px;
@@ -287,10 +287,10 @@
     }
   
     .blog p {
-      font-size: 0.9rem; /* 段落字体大小 */
-  margin-bottom: 15px; /* 底部间距 */
-  line-height: 2; /* 行间距为2 */
-  text-align: left; /* 左对齐 */
+      font-size: 0.9rem; 
+  margin-bottom: 15px; 
+  line-height: 2; 
+  text-align: left; 
 
     }
   

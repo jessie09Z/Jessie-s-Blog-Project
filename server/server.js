@@ -2,16 +2,28 @@ import express from "express";
 import cors from "cors";
 import pg from "pg";
 import { config as dotenvConfig } from 'dotenv';
+import { fileURLToPath } from 'url';
+import path from 'path';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
+dotenvConfig({ path: path.resolve(__dirname, "../.env") });
 
 const app = express();
 const port = 5000;
 app.use(cors());
 
+app.use(express.static("public"));
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-dotenvConfig({ path: '.env' });
+
+
+
+console.log("DB_PASSWORD:", process.env.DB_PASSWORD);
+console.log("DB_HOST:", process.env.DB_HOST);
 const db = new pg.Client({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
@@ -23,7 +35,7 @@ db.connect();
 app.get("/", (req, res) => {
   res.send("Welcome to the Blog API"); // You can send any message you want here
 });
-//api endpoint for login. Compare user info with db. 
+
 app.get("/api/login", (req, res) => {
   res.status(405).send("GET method not allowed for /api/login");
 });

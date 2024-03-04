@@ -1,6 +1,8 @@
 import React, {useState} from "react";
 import { useNavigate, Link } from "react-router-dom"; // 导入 Link 组件
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 function Register(props){
@@ -25,21 +27,31 @@ function handleChange(event){
 async function handleRegister(event){
     event.preventDefault();
     console.log("Register button clicked");
+    let shouldRegister = true;
     if (registerInfo.password.length < 6) {
         setError("Password should be at least 6 characters long");
-        alert("Password should be at least 6 characters long");
+        toast.error("Password should be at least 6 characters long");
+        shouldRegister=false;
         return;
       }
       if (registerInfo.password !== registerInfo.confirmPassword) {
         setError("Passwords do not match");
-        alert("Passwords do not match");
+        toast.error("Passwords do not match");
+        shouldRegister=false;
         return;
       }
-      if (props.users.some(user => user.username === registerInfo.username)) {
-        setError("Username already exists");
-        alert("Username already exists");
-        return;
-      }
+      const isUsernameDuplicate = props.users.some(user => user.username === registerInfo.username);
+  console.log("isUsernameDuplicate:", isUsernameDuplicate);
+
+  if (isUsernameDuplicate) {
+    setError("Username already exists");
+    toast.error("Username already exists");
+    shouldRegister=false;
+    return;
+  }
+  if (!shouldRegister) {
+    return;
+  }
       const newUser = {
         username: registerInfo.username,
         password: registerInfo.password
@@ -54,30 +66,61 @@ async function handleRegister(event){
         
           navigate("/login");
         } else {
-          alert(data.message);
+          toast.error(data.message);
         }
       } catch (error) {
         console.error("Error:", error);
-        alert("An error occurred. Please try again.");
+        toast.error("An error occurred. Please try again.");
       }
          
 
 }
     return (
-        <div>
-        <form onSubmit={handleRegister}>
+      <div className="form-container">
+      <form onSubmit={handleRegister}>
         <h1>Register Page</h1>
-        <label for="username">Username</label>
-        <input type="text" onChange={handleChange} name="username" id="username" placeholder="username" value={registerInfo.username} required/>
-        <label for="password">Password</label>
-        <input type="password" onChange={handleChange} name="password" id="password" placeholder="password" value={registerInfo.password} required/>
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" onChange={handleChange} name="confirmPassword" id="confirmPassword" value={registerInfo.confirmPassword} placeholder="password" required/>
-        <button type="submit">Register</button>
-
-        </form>
-    
+        <div className="form-group">
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            onChange={handleChange}
+            name="username"
+            id="username"
+            placeholder="username"
+            value={registerInfo.username}
+            required
+          />
         </div>
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            onChange={handleChange}
+            name="password"
+            id="password"
+            placeholder="password"
+            value={registerInfo.password}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="confirmPassword">Confirm Password</label>
+          <input
+            type="password"
+            onChange={handleChange}
+            name="confirmPassword"
+            id="confirmPassword"
+            placeholder="confirm password"
+            value={registerInfo.confirmPassword}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <button type="submit">Register</button>
+        </div>
+      
+      </form>
+    </div>
       );
 }
 

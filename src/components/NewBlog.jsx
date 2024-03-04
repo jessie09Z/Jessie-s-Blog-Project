@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 function NewBlog(props) {
   // keep track the blog content
   const { username } = useParams();
+  useEffect(() => {
+    localStorage.setItem("currentPath", `/users/${username}/new`);
+  }, [username]);
 
   const navigate = useNavigate();
 

@@ -25,6 +25,7 @@ function UpdateBlog(props) {
     }
 
     fetchBlog();
+    localStorage.setItem("currentPath", `/users/:username/updateBlog/:id`);
   }, [id, username]);
   function handleChange(event) {
     const { name, value } = event.target;

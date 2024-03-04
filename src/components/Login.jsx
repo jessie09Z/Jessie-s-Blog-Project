@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { useNavigate, Link } from "react-router-dom";
-import Header from "./Header";
-import Footer from "./Footer";
 import axios from "axios";
-
+import { toast } from "react-toastify"; 
+import "react-toastify/dist/ReactToastify.css";
 function Login(props) {
   const [loginInfo, setLoginInfo] = useState({
     username: "",
@@ -19,26 +18,47 @@ function Login(props) {
   }
 
   const navigate = useNavigate();
+  
 
   async function handleSumbit(event) {
     event.preventDefault();
    
     try {
-      console.log("Username before submit:", loginInfo.username);
+      //console.log("Username before submit:", loginInfo.username);
       const response = await axios.post("http://localhost:5000/api/login", loginInfo);
       const data = response.data;
-      console.log(data);
+      console.log(data, "check log");
       
       if (data.success) {
         props.onLogin(loginInfo.username, true); 
-        console.log(`/users/${loginInfo.username}/allblogs`);
-        navigate(`/users/${loginInfo.username}/allblogs`);
+       // console.log(`/users/${loginInfo.username}/allblogs`);
+       const newPath= `/users/${loginInfo.username}/allblogs`;
+      // props.setCurrentPath(newPath);
+       
+        navigate(newPath);
       } else {
-        alert(data.message);
+        console.log( "check log after false");
+
+        toast.warning(
+          <div>
+            <p>Invalid username or password</p>
+          </div>,
+          {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined
+          }
+        );
       }
     } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred. Please try again.");
+      console.error( error);
+      toast.error("An error occurred. Please try again.");
+
+      
     }
   }
 
