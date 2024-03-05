@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Jessie-s-Blog-Project/static/css/main.f029a054.css",
+    "main.js": "/Jessie-s-Blog-Project/static/js/main.602d47ba.js",
+    "index.html": "/Jessie-s-Blog-Project/index.html",
+    "main.f029a054.css.map": "/Jessie-s-Blog-Project/static/css/main.f029a054.css.map",
+    "main.602d47ba.js.map": "/Jessie-s-Blog-Project/static/js/main.602d47ba.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f029a054.css",
+    "static/js/main.602d47ba.js"
+  ]
+}
