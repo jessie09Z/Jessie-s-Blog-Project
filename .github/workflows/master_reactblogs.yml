@@ -59,6 +59,5 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'reactblogs'
-          slot-name: 'Production'
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9B48044E2665405A9ADC7250142365C9 }}
