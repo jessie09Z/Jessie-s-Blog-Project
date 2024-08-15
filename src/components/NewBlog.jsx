@@ -31,7 +31,7 @@ function NewBlog(props) {
         content: blog.content
 
       }
-      const response = await axios.post(`http://${baseURL}/api/user/${username}/new`, newBlog);
+      const response = await axios.post(`${baseURL}/api/user/${username}/new`, newBlog);
       console.log(response, " insert respones");
       if (response.status === 200) {
         console.log(`/users/${username}/allblogs`, "check go back fine");

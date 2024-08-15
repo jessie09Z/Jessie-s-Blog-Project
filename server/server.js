@@ -9,10 +9,25 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 dotenvConfig({ path: path.resolve(__dirname, "../.env") });
-
 const app = express();
-const port = 5000;
-app.use(cors());
+const port = process.env.PORT || 5000;
+
+app.use(cors({
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      'https://jessieblog-fddub5e5eegubbgj.australiaeast-01.azurewebsites.net'
+    ];
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true); // Allow the request
+    } else {
+      callback(new Error('Not allowed by CORS')); // Deny the request
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+}));
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

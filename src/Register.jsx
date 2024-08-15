@@ -60,7 +60,7 @@ async function handleRegister(event){
       const baseURL = process.env.REACT_APP_API_URL;
 
       try {
-        const response = await axios.post(`http://${baseURL}/api/register`, newUser);
+        const response = await axios.post(`${baseURL}/api/register`, newUser);
         const data = response.data;
         
         if (data.success) {

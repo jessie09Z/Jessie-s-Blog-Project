@@ -16,7 +16,7 @@ function UpdateBlog(props) {
     // 根据博客ID从后端获取博客数据
     async function fetchBlog() {
       try {
-        const response = await axios.get(`http://${baseURL}/api/user/${username}/blogs/${id}`);
+        const response = await axios.get(`${baseURL}/api/user/${username}/blogs/${id}`);
         console.log("response from update reqirement");
         const blogData = response.data;
         setBlog(blogData);
@@ -38,7 +38,7 @@ function UpdateBlog(props) {
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      const response = await axios.patch(`http://${baseURL}/api/user/${username}/blogs/${id}`, blog);
+      const response = await axios.patch(`${baseURL}/api/user/${username}/blogs/${id}`, blog);
       console.log("Blog updated:", response.data);
       navigate(`/users/${username}/allblogs`)
     } catch (error) {

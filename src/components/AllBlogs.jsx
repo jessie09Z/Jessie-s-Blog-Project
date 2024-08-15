@@ -35,7 +35,7 @@ function AllBlogs(props) {
   }, [username]);
   async function handleDelete(id) {
     try {
-      const response = await axios.delete(`http://${baseURL}/api/user/${username}/blogs/${id}`);
+      const response = await axios.delete(`${baseURL}/api/user/${username}/blogs/${id}`);
       if (response.status === 200) {
         const updatedBlogs = userBlogs.filter((blog) => blog.id !== id);
         setUserBlogs(updatedBlogs);

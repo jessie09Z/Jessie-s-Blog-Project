@@ -25,7 +25,7 @@ function Login(props) {
    
     try {
       //console.log("Username before submit:", loginInfo.username);
-      const response = await axios.post(`http://${baseURL}/api/login`, loginInfo);
+      const response = await axios.post(`${baseURL}/api/login`, loginInfo);
       const data = response.data;
       console.log(data, "check log");
       

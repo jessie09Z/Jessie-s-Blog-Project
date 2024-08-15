@@ -33,12 +33,13 @@ function Blog(props) {
       toast.dismiss();
     }
 
+    const baseURL = process.env.REACT_APP_API_URL;
     async function deleteBlog() {
       try {
         const response = await axios.delete(
-          `http://localhost:5000/api/user/${username}/blogs/${id}`
+          `${baseURL}/api/user/${username}/blogs/${id}`
         );
-        console.log(`http://localhost:5000/api/user/${username}/blogs/${id}`);
+        console.log(`${baseURL}/api/user/${username}/blogs/${id}`);
         console.log(response, "delete response");
         if (response.status === 200) {
           console.log("delete success, wait for go back to allblogs");
