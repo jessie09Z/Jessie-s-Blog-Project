@@ -195,10 +195,11 @@ initializeDatabase().then(() => {
   });
 
   //writing production script
-  app.use(express.static("./Jessie-s-Blog-Project/build"));
-  app.get("*",(req, res)=>{
-    res.sendFile(path.resolve(__dirname,"Jessie-s-Blog-Project","build","index.html"))
-  })
+  app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
   app.listen(port, () => {
     console.log(`Server is running on ${process.env.REACT_APP_API_URL}:${port}`);
   });
