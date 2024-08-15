@@ -3,6 +3,7 @@ import { useParams, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function UpdateBlog(props) {
+  const baseURL = process.env.REACT_APP_API_URL;
   const location = useLocation();
   const navigate=useNavigate();
   const { title: initialTitle, content: initialContent } = location.state || {};
@@ -15,7 +16,7 @@ function UpdateBlog(props) {
     // 根据博客ID从后端获取博客数据
     async function fetchBlog() {
       try {
-        const response = await axios.get(`http://localhost:5000/api/user/${username}/blogs/${id}`);
+        const response = await axios.get(`http://${baseURL}/api/user/${username}/blogs/${id}`);
         console.log("response from update reqirement");
         const blogData = response.data;
         setBlog(blogData);
@@ -37,7 +38,7 @@ function UpdateBlog(props) {
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      const response = await axios.patch(`http://localhost:5000/api/user/${username}/blogs/${id}`, blog);
+      const response = await axios.patch(`http://${baseURL}/api/user/${username}/blogs/${id}`, blog);
       console.log("Blog updated:", response.data);
       navigate(`/users/${username}/allblogs`)
     } catch (error) {

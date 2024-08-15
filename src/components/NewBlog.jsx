@@ -5,6 +5,8 @@ import axios from "axios";
 function NewBlog(props) {
   // keep track the blog content
   const { username } = useParams();
+  
+  const baseURL = process.env.REACT_APP_API_URL;
   useEffect(() => {
     localStorage.setItem("currentPath", `/users/${username}/new`);
   }, [username]);
@@ -29,7 +31,7 @@ function NewBlog(props) {
         content: blog.content
 
       }
-      const response = await axios.post(`http://localhost:5000/api/user/${username}/new`, newBlog);
+      const response = await axios.post(`http://${baseURL}/api/user/${username}/new`, newBlog);
       console.log(response, " insert respones");
       if (response.status === 200) {
         console.log(`/users/${username}/allblogs`, "check go back fine");

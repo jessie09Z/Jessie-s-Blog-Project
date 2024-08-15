@@ -17,8 +17,8 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-console.log("DB_PASSWORD:", process.env.DB_PASSWORD);
-console.log("DB_HOST:", process.env.DB_HOST);
+console.log("REACT_APP_API_URL:", process.env.REACT_APP_API_URL);
+console.log("DB_URL:", process.env.DATABASE_URL);
 
 const db = new pg.Client({
   connectionString: process.env.DATABASE_URL,
@@ -179,7 +179,12 @@ initializeDatabase().then(() => {
     }
   });
 
+  //writing production script
+  app.use(express.static("./Jessie-s-Blog-Project/build"));
+  app.get("*",(req, res)=>{
+    res.sendFile(path.resolve(__dirname,"Jessie-s-Blog-Project","build","index.html"))
+  })
   app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+    console.log(`Server is running on ${process.env.REACT_APP_API_URL}:${port}`);
   });
 });

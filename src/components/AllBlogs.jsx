@@ -14,11 +14,11 @@ function AllBlogs(props) {
   const [userBlogs, setUserBlogs] = useState([]);
   const [blogsChanged, setBlogsChanged] = useState(0); 
   let { username } = useParams();
-
+  const baseURL = process.env.REACT_APP_API_URL;
   useEffect(() => {
     async function fetchUserBlogs() {
       try {
-        const response = await axios.get(`http://localhost:5000/api/user/${username}/blogs`);
+        const response = await axios.get(`${baseURL}/api/user/${username}/blogs`);
         const blogs = response.data;
         setUserBlogs(blogs);
       } catch (error) {
@@ -35,7 +35,7 @@ function AllBlogs(props) {
   }, [username]);
   async function handleDelete(id) {
     try {
-      const response = await axios.delete(`http://localhost:5000/api/user/${username}/blogs/${id}`);
+      const response = await axios.delete(`http://${baseURL}/api/user/${username}/blogs/${id}`);
       if (response.status === 200) {
         const updatedBlogs = userBlogs.filter((blog) => blog.id !== id);
         setUserBlogs(updatedBlogs);

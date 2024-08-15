@@ -18,14 +18,14 @@ function Login(props) {
   }
 
   const navigate = useNavigate();
-  
+  const baseURL = process.env.REACT_APP_API_URL;
 
   async function handleSumbit(event) {
     event.preventDefault();
    
     try {
       //console.log("Username before submit:", loginInfo.username);
-      const response = await axios.post("http://localhost:5000/api/login", loginInfo);
+      const response = await axios.post(`http://${baseURL}/api/login`, loginInfo);
       const data = response.data;
       console.log(data, "check log");
       
