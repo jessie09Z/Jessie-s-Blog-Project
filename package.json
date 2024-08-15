@@ -51,7 +51,12 @@
     "node": ">=20"
   },
   "devDependencies": {
+    "@babel/core": "^7.25.2",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "gh-pages": "^6.1.1"
+    "@babel/preset-env": "^7.25.3",
+    "@babel/preset-react": "^7.24.7",
+    "babel-jest": "^29.7.0",
+    "gh-pages": "^6.1.1",
+    "jest": "^27.5.1"
   }
 }
