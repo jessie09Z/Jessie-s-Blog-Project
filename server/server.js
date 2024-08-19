@@ -8,7 +8,7 @@ import path from 'path';
 dotenvConfig();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const baseURL="https://reactblogs-b4fmfdbje4dtd5cs.australiaeast-01.azurewebsites.net";
+const baseURL="https://jessieblogs-h5cqa6h3hmgpfhf8.australiaeast-01.azurewebsites.net/";
 
 dotenvConfig({ path: path.resolve(__dirname, "../.env") });
 const app = express();
@@ -17,7 +17,7 @@ const port = process.env.PORT || 5000;
 app.use(cors({
   origin: (origin, callback) => {
     const allowedOrigins = [
-      'https://reactblogs-b4fmfdbje4dtd5cs.australiaeast-01.azurewebsites.net/',
+      'https://jessieblogs-h5cqa6h3hmgpfhf8.australiaeast-01.azurewebsites.net/',
       'http://localhost:3000'
     ];
     
