@@ -40,11 +40,7 @@ console.log("REACT_APP_API_URL:", process.env.REACT_APP_API_URL);
 //console.log("DB_URL:", process.env.DATABASE_URL);
 
 const db = new pg.Client({
-  user: process.env.DB_USER || 'postgres',
-  host: process.env.DB_HOST || 'localhost',
-  database: 'postgres', 
-  password: process.env.DB_PASSWORD || 'Jessie0901',
-  port: process.env.DB_PORT || 5432,
+  connectionString: process.env.DATABASE_URL,
 });
 
 const initializeDatabase = async () => {
@@ -179,30 +175,32 @@ initializeDatabase().then(() => {
     }
   });
 
-  app.patch(`/api/user/:username/blogs/:id`, async (req, res) => {
+  app.patch('/api/user/:username/blogs/:id', async (req, res) => {
+    const { id } = req.params;
     const { title, content } = req.body;
-    const { username, id } = req.params;
+  
     try {
-      const query = `
-        UPDATE blogs
-        SET title = $1, content = $2
-        WHERE
-        userid = (SELECT id FROM users WHERE username = $3)
-        AND blogid = $4
-        RETURNING *;
-      `;
-      const updatedBlog = await db.query(query, [title, content, username, id]);
-      if (updatedBlog.rows.length === 0) {
-        return res.status(404).json({ success: false, message: "Blog not found" });
+      // 获取现有的博客内容
+      const existingBlog = await db.query('SELECT title, content FROM blogs WHERE blogid = $1', [id]);
+      if (existingBlog.rows.length === 0) {
+        return res.status(404).json({ error: 'Blog not found' });
       }
-      res.status(200).json({ success: true, data: updatedBlog.rows[0] });
+  
+      // 合并请求中的更新字段和现有字段
+      const currentTitle = existingBlog.rows[0].title;
+      const currentContent = existingBlog.rows[0].content;
+  
+      const updatedTitle = title !== undefined ? title : currentTitle;
+      const updatedContent = content !== undefined ? content : currentContent;
+  
+      // 执行更新操作
+      await db.query('UPDATE blogs SET title = $1, content = $2 WHERE blogid = $3', [updatedTitle, updatedContent, id]);
+      res.status(200).json({ success: 'Blog updated successfully' });
     } catch (error) {
-      console.error("Error updating blog:", error);
-      res.status(500).json({ success: false, message: "Server error" });
+      console.error('Error updating blog:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
   });
-
-
 // Serve static files from the "build" directory
 app.use(express.static(path.join(__dirname, '../build')));
 
