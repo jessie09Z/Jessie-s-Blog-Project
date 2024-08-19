@@ -17,7 +17,7 @@ const port = process.env.PORT || 5000;
 app.use(cors({
   origin: (origin, callback) => {
     const allowedOrigins = [
-      'https://jessieblogs-h5cqa6h3hmgpfhf8.australiaeast-01.azurewebsites.net/',
+      'https://jessieblogs-h5cqa6h3hmgpfhf8.australiaeast-01.azurewebsites.net',
       'http://localhost:3000'
     ];
     
