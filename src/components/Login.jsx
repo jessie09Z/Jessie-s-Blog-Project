@@ -18,7 +18,7 @@ function Login(props) {
   }
 
   const navigate = useNavigate();
-  const baseURL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+  const baseURL = "https://jessieblogs-h5cqa6h3hmgpfhf8.australiaeast-01.azurewebsites.net";
 
   async function handleSumbit(event) {
     event.preventDefault();

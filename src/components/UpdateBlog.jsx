@@ -3,7 +3,7 @@ import { useParams, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function UpdateBlog(props) {
-  const baseURL = process.env.REACT_APP_API_URL;
+  const baseURL = "https://jessieblogs-h5cqa6h3hmgpfhf8.australiaeast-01.azurewebsites.net";
   const location = useLocation();
   const navigate=useNavigate();
   const { title: initialTitle, content: initialContent } = location.state || {};

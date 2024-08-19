@@ -6,7 +6,7 @@ function NewBlog(props) {
   // keep track the blog content
   const { username } = useParams();
   
-  const baseURL = process.env.REACT_APP_API_URL;
+  const baseURL = "https://jessieblogs-h5cqa6h3hmgpfhf8.australiaeast-01.azurewebsites.net";
   useEffect(() => {
     localStorage.setItem("currentPath", `/users/${username}/new`);
   }, [username]);

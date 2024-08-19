@@ -51,7 +51,7 @@ function Register(props) {
             password: registerInfo.password
         };
 
-        const baseURL = process.env.REACT_APP_API_URL;
+        const baseURL = "https://jessieblogs-h5cqa6h3hmgpfhf8.australiaeast-01.azurewebsites.net";
 
         try {
             const response = await axios.post(`${baseURL}/api/register`, newUser);
