@@ -1,13 +1,14 @@
+import { config as dotenvConfig } from 'dotenv';
 import express from "express";
 import cors from "cors";
 import pg from "pg";
-import { config as dotenvConfig } from 'dotenv';
 import { fileURLToPath } from 'url';
 import path from 'path';
 
+dotenvConfig();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const baseURL="http://localhost:5000";
+const baseURL="https://reactblogs-b4fmfdbje4dtd5cs.australiaeast-01.azurewebsites.net";
 
 dotenvConfig({ path: path.resolve(__dirname, "../.env") });
 const app = express();
@@ -16,9 +17,10 @@ const port = process.env.PORT || 5000;
 app.use(cors({
   origin: (origin, callback) => {
     const allowedOrigins = [
-      'https://jessieblog-fddub5e5eegubbgj.australiaeast-01.azurewebsites.net',
+      'https://reactblogs-b4fmfdbje4dtd5cs.australiaeast-01.azurewebsites.net/',
       'http://localhost:3000'
     ];
+    
     if (allowedOrigins.includes(origin) || !origin) {
       callback(null, true); // Allow the request
     } else {
@@ -35,7 +37,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 console.log("REACT_APP_API_URL:", process.env.REACT_APP_API_URL);
-console.log("DB_URL:", process.env.DATABASE_URL);
+//console.log("DB_URL:", process.env.DATABASE_URL);
 
 const db = new pg.Client({
   user: process.env.DB_USER || 'postgres',
@@ -201,7 +203,20 @@ initializeDatabase().then(() => {
   });
 
 
+// Serve static files from the "build" directory
+app.use(express.static(path.join(__dirname, '../build')));
+
+  console.log(`Index file path: ${path.resolve(__dirname, '../build', 'index.html')}`
+);
+
+// Handle all other routes by serving the index.html file
+app.get('*', (req, res) => {
+  console.log(`Request received for test app: ${req.originalUrl}`);
+  res.sendFile(path.resolve(__dirname, '../build', 'index.html'));
+});
+
+
   app.listen(port, () => {
-    console.log(`Server is running on ${process.env.REACT_APP_API_URL}:${port}`);
+    console.log(`Server is running on :${port}`);
   });
 });
