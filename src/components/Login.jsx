@@ -18,7 +18,7 @@ function Login(props) {
   }
 
   const navigate = useNavigate();
-  const baseURL = process.env.REACT_APP_API_URL;
+  const baseURL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
   async function handleSumbit(event) {
     event.preventDefault();

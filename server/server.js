@@ -7,6 +7,7 @@ import path from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const baseURL="http://localhost:5000";
 
 dotenvConfig({ path: path.resolve(__dirname, "../.env") });
 const app = express();
@@ -15,7 +16,8 @@ const port = process.env.PORT || 5000;
 app.use(cors({
   origin: (origin, callback) => {
     const allowedOrigins = [
-      'https://jessieblog-fddub5e5eegubbgj.australiaeast-01.azurewebsites.net'
+      'https://jessieblog-fddub5e5eegubbgj.australiaeast-01.azurewebsites.net',
+      'http://localhost:3000'
     ];
     if (allowedOrigins.includes(origin) || !origin) {
       callback(null, true); // Allow the request
@@ -23,7 +25,7 @@ app.use(cors({
       callback(new Error('Not allowed by CORS')); // Deny the request
     }
   },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
   credentials: true,
   preflightContinue: false,
   optionsSuccessStatus: 204
@@ -36,7 +38,11 @@ console.log("REACT_APP_API_URL:", process.env.REACT_APP_API_URL);
 console.log("DB_URL:", process.env.DATABASE_URL);
 
 const db = new pg.Client({
-  connectionString: process.env.DATABASE_URL,
+  user: process.env.DB_USER || 'postgres',
+  host: process.env.DB_HOST || 'localhost',
+  database: 'postgres', 
+  password: process.env.DB_PASSWORD || 'Jessie0901',
+  port: process.env.DB_PORT || 5432,
 });
 
 const initializeDatabase = async () => {
@@ -70,15 +76,15 @@ const initializeDatabase = async () => {
 };
 
 initializeDatabase().then(() => {
-  app.get("/", (req, res) => {
+  app.get(`/`, (req, res) => {
     res.send("Welcome to the Blog API");
   });
 
-  app.get("/api/login", (req, res) => {
+  app.get(`/api/login`, (req, res) => {
     res.status(405).send("GET method not allowed for /api/login");
   });
 
-  app.post("/api/login", async (req, res) => {
+  app.post(`/api/login`, async (req, res) => {
     const { username, password } = req.body;
     console.log("Received login request:", username, password);
     try {
@@ -96,11 +102,11 @@ initializeDatabase().then(() => {
     }
   });
 
-  app.get("/api/register", (req, res) => {
+  app.get(`/api/register`, (req, res) => {
     res.status(405).send("GET method not allowed for /api/register");
   });
 
-  app.post("/api/register", async (req, res) => {
+  app.post(`/api/register`, async (req, res) => {
     const { username, password } = req.body;
     console.log("Received register request:", username, password);
     try {
@@ -118,7 +124,7 @@ initializeDatabase().then(() => {
     }
   });
 
-  app.get("/api/user/:username/blogs", async (req, res) => {
+  app.get(`/api/user/:username/blogs`, async (req, res) => {
     const { username } = req.params;
     console.log("Fetching blogs for user:", username);
     try {
@@ -136,7 +142,7 @@ initializeDatabase().then(() => {
     }
   });
 
-  app.post("/api/user/:username/new", async (req, res) => {
+  app.post(`/api/user/:username/new`, async (req, res) => {
     const { title, content } = req.body;
     const { username } = req.params;
     try {
@@ -152,7 +158,7 @@ initializeDatabase().then(() => {
     }
   });
 
-  app.delete("/api/user/:username/blogs/:id", async (req, res) => {
+  app.delete(`/api/user/:username/blogs/:id`, async (req, res) => {
     const { username, id } = req.params;
     try {
       const query = `
@@ -171,7 +177,7 @@ initializeDatabase().then(() => {
     }
   });
 
-  app.patch("/api/user/:username/blogs/:id", async (req, res) => {
+  app.patch(`/api/user/:username/blogs/:id`, async (req, res) => {
     const { title, content } = req.body;
     const { username, id } = req.params;
     try {
@@ -194,13 +200,7 @@ initializeDatabase().then(() => {
     }
   });
 
-  //writing production script
-  app.use(express.static(path.join(__dirname, '../build')));
-  console.log('Static files served from:', path.join(__dirname, '../build'));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../build', 'index.html'));
-});
   app.listen(port, () => {
     console.log(`Server is running on ${process.env.REACT_APP_API_URL}:${port}`);
   });
